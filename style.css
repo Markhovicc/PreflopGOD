@@ -3,9 +3,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh; /* muda para min-height para evitar corte */
   margin: 0;
-  overflow: hidden; /* remove espaço extra */
+  overflow-x: hidden; /* só bloqueia rolagem lateral */
   font-family: Arial, sans-serif;
 }
 
@@ -15,7 +15,9 @@ body {
 }
 
 .poker-table {
-  width: 900px;
+  width: 100%;
+  max-width: 900px; /* limite para telas grandes */
+  height: auto;
   display: block;
   margin: 0 auto;
   border-radius: 20px;
@@ -24,12 +26,12 @@ body {
 /* Contêiner dos botões */
 .buttons-container {
   position: absolute;
-  bottom: 50px; /* sobe um pouco mais */
+  bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 20px;
-  background: transparent; /* remove o fundo escuro */
+  background: transparent;
 }
 
 /* Estilo geral dos botões */
@@ -41,7 +43,7 @@ body {
   border-radius: 6px;
   color: white;
   cursor: pointer;
-  white-space: nowrap; /* impede quebra de linha */
+  white-space: nowrap;
   box-shadow: 0 0 8px rgba(0,0,0,0.4);
   transition: transform 0.15s, opacity 0.15s;
 }
@@ -56,3 +58,53 @@ body {
 .limp  { background-color: #1b7c2c; }  /* Verde */
 .raise { background-color: #b41c1c; }  /* Vermelho escuro */
 .allin { background-color: #e60000; }  /* Vermelho vivo */
+
+/* ============================= */
+/*        MODO CELULAR           */
+/* ============================= */
+@media (max-width: 768px) {
+  body {
+    height: auto;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 10px;
+  }
+
+  .poker-table {
+    width: 95%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .buttons-container {
+    flex-direction: column;
+    position: static; /* remove o absolute no mobile */
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .action-btn {
+    padding: 12px 28px;
+    font-size: 16px;
+  }
+}
+
+/* ============================= */
+/*        MODO VERTICAL           */
+/* ============================= */
+@media (orientation: portrait) {
+  .poker-table {
+    max-width: 480px;
+  }
+
+  .buttons-container {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .action-btn {
+    font-size: 15px;
+    padding: 10px 25px;
+  }
+}
