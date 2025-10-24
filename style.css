@@ -1,37 +1,39 @@
 body {
-  background-color: #000; /* fica escondido pela mesa */
+  background-color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* muda para min-height para evitar corte */
-  margin: 0;
-  overflow-x: hidden; /* só bloqueia rolagem lateral */
+  min-height: 100vh;
+  margin: -80px;
+  overflow-x: hidden;
   font-family: Arial, sans-serif;
 }
 
 .table-container {
-  position: relative;
+  position: relative; /* mantém referência pros botões */
   text-align: center;
+  width: 100%;
+  max-width: 900px;
 }
 
 .poker-table {
   width: 100%;
-  max-width: 900px; /* limite para telas grandes */
   height: auto;
   display: block;
-  margin: 0 auto;
   border-radius: 20px;
+  margin: 0 auto;
 }
 
 /* Contêiner dos botões */
 .buttons-container {
   position: absolute;
-  bottom: 50px;
+  bottom: 0%; /* controla altura dentro da mesa */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 20px;
   background: transparent;
+  flex-wrap: nowrap;
 }
 
 /* Estilo geral dos botões */
@@ -71,22 +73,30 @@ body {
     padding-top: 10px;
   }
 
+  .table-container {
+    width: 100%;
+    max-width: 480px;
+  }
+
   .poker-table {
-    width: 95%;
+    width: 100%;
     height: auto;
     border-radius: 10px;
   }
 
   .buttons-container {
+    position: absolute;
+    bottom: -4%; /* mais dentro da mesa */
+    left: 50%;
+    transform: translateX(-50%);
     flex-direction: column;
-    position: static; /* remove o absolute no mobile */
-    margin-top: 10px;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
   }
 
   .action-btn {
-    padding: 12px 28px;
-    font-size: 16px;
+    padding: 10px 25px;
+    font-size: 15px;
   }
 }
 
@@ -94,17 +104,9 @@ body {
 /*        MODO VERTICAL           */
 /* ============================= */
 @media (orientation: portrait) {
-  .poker-table {
-    max-width: 480px;
-  }
-
   .buttons-container {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .action-btn {
-    font-size: 15px;
-    padding: 10px 25px;
+    bottom: 5%;
+    flex-direction: column;
+    gap: 8px;
   }
 }
