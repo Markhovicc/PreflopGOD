@@ -1,0 +1,58 @@
+body {
+  background-color: #000; /* fica escondido pela mesa */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden; /* remove espaço extra */
+  font-family: Arial, sans-serif;
+}
+
+.table-container {
+  position: relative;
+  text-align: center;
+}
+
+.poker-table {
+  width: 900px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+/* Contêiner dos botões */
+.buttons-container {
+  position: absolute;
+  bottom: 50px; /* sobe um pouco mais */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  background: transparent; /* remove o fundo escuro */
+}
+
+/* Estilo geral dos botões */
+.action-btn {
+  padding: 16px 40px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap; /* impede quebra de linha */
+  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.action-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Cores específicas */
+.fold  { background-color: #007bff; }  /* Azul */
+.limp  { background-color: #1b7c2c; }  /* Verde */
+.raise { background-color: #b41c1c; }  /* Vermelho escuro */
+.allin { background-color: #e60000; }  /* Vermelho vivo */
