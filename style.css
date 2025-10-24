@@ -14,7 +14,7 @@ body {
   text-align: center;
   width: 100%;
   max-width: 900px;
-  margin-top: -40px; /* sobe um pouco a mesa no desktop */
+  margin-top: -40px; /* sobe a mesa no desktop */
 }
 
 .poker-table {
@@ -28,26 +28,26 @@ body {
 /* Contêiner dos botões */
 .buttons-container {
   position: absolute;
-  bottom: 3%; /* ajustado para ficar um pouco mais abaixo */
+  bottom: 3%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 20px;
+  gap: 2vw; /* espaçamento relativo à largura da tela */
   background: transparent;
   flex-wrap: nowrap;
 }
 
-/* Estilo geral dos botões */
+/* Estilo geral dos botões - tamanho relativo */
 .action-btn {
-  padding: 16px 40px;
-  font-size: 18px;
+  padding: 1.5vw 4vw; /* padding relativo à largura da tela */
+  font-size: 1.2vw;    /* tamanho do texto relativo à tela */
   font-weight: bold;
   border: none;
   border-radius: 6px;
   color: white;
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
+  box-shadow: 0 0 0.5vw rgba(0,0,0,0.4);
   transition: transform 0.15s, opacity 0.15s;
 }
 
@@ -57,10 +57,10 @@ body {
 }
 
 /* Cores específicas */
-.fold  { background-color: #007bff; }  /* Azul */
-.limp  { background-color: #1b7c2c; }  /* Verde */
-.raise { background-color: #b41c1c; }  /* Vermelho escuro */
-.allin { background-color: #e60000; }  /* Vermelho vivo */
+.fold  { background-color: #007bff !important; }
+.limp  { background-color: #1b7c2c !important; }
+.raise { background-color: #b41c1c !important; }
+.allin { background-color: #e60000 !important; }
 
 /* ============================= */
 /*        MODO CELULAR           */
@@ -76,7 +76,7 @@ body {
   .table-container {
     width: 100%;
     max-width: 480px;
-    margin-top: 0; /* remove o deslocamento negativo no celular */
+    margin-top: 0; /* remove deslocamento negativo no celular */
   }
 
   .poker-table {
@@ -87,17 +87,17 @@ body {
 
   .buttons-container {
     position: absolute;
-    bottom: 6%; /* move um pouco mais pra dentro da mesa */
+    bottom: 6%;
     left: 50%;
     transform: translateX(-50%);
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 3vw; /* espaço relativo */
   }
 
   .action-btn {
-    padding: 12px 28px;
-    font-size: 16px;
+    padding: 3vw 8vw; /* maior para caber na mesa pequena */
+    font-size: 3vw;
   }
 }
 
@@ -107,11 +107,11 @@ body {
 @media (orientation: portrait) {
   .buttons-container {
     bottom: 5%;
-    gap: 8px;
+    gap: 3vw;
   }
 
   .action-btn {
-    font-size: 15px;
-    padding: 10px 25px;
+    padding: 3vw 8vw;
+    font-size: 3vw;
   }
 }
