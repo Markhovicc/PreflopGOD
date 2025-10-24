@@ -1,53 +1,56 @@
 body {
   background-color: #000;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* começa do topo */
   align-items: center;
   min-height: 100vh;
   margin: 0;
+  padding-top: 10px;
   overflow-x: hidden;
   font-family: Arial, sans-serif;
+  flex-direction: column;
 }
 
 .table-container {
   position: relative;
   text-align: center;
-  width: 100%;
-  max-width: 900px;
-  margin-top: -40px; /* sobe a mesa no desktop */
+  width: 95%;
+  max-width: 480px; /* garante que não fique maior que a tela do celular */
+  margin: 0 auto;
 }
 
 .poker-table {
   width: 100%;
   height: auto;
+  border-radius: 10px;
   display: block;
-  border-radius: 20px;
   margin: 0 auto;
 }
 
 /* Contêiner dos botões */
 .buttons-container {
   position: absolute;
-  bottom: 3%;
+  bottom: 6%; /* ajusta altura dentro da mesa */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 2vw; /* espaçamento relativo à largura da tela */
+  flex-direction: column;
+  align-items: center;
+  gap: 3vw; /* espaçamento proporcional */
   background: transparent;
-  flex-wrap: nowrap;
 }
 
-/* Estilo geral dos botões - tamanho relativo */
+/* Botões com tamanho proporcional à tela */
 .action-btn {
-  padding: 1.5vw 4vw; /* padding relativo à largura da tela */
-  font-size: 1.2vw;    /* tamanho do texto relativo à tela */
+  padding: 3vw 8vw; /* proporcional à largura da tela */
+  font-size: 3vw;
   font-weight: bold;
   border: none;
   border-radius: 6px;
   color: white;
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 0 0.5vw rgba(0,0,0,0.4);
+  box-shadow: 0 0 3vw rgba(0,0,0,0.4);
   transition: transform 0.15s, opacity 0.15s;
 }
 
@@ -63,46 +66,7 @@ body {
 .allin { background-color: #e60000 !important; }
 
 /* ============================= */
-/*        MODO CELULAR           */
-/* ============================= */
-@media (max-width: 768px) {
-  body {
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 10px;
-    overflow: hidden;
-  }
-
-  .table-container {
-    width: 100%;
-    max-width: 480px;
-    margin-top: 0; /* remove deslocamento negativo no celular */
-  }
-
-  .poker-table {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-  }
-
-  .buttons-container {
-    position: absolute;
-    bottom: 6%;
-    left: 50%;
-    transform: translateX(-50%);
-    flex-direction: column;
-    align-items: center;
-    gap: 3vw; /* espaço relativo */
-  }
-
-  .action-btn {
-    padding: 3vw 8vw; /* maior para caber na mesa pequena */
-    font-size: 3vw;
-  }
-}
-
-/* ============================= */
-/*        MODO VERTICAL           */
+/*        MODO VERTICAL          */
 /* ============================= */
 @media (orientation: portrait) {
   .buttons-container {
