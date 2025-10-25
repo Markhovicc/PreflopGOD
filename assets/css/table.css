@@ -1,0 +1,21 @@
+.table-container {
+  text-align: center;
+  width: 75%;         /* mesa menor */
+  max-width: 380px;
+  margin-bottom: 2vh; /* reduz espaço abaixo */
+}
+
+.poker-table {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+@media (orientation: portrait) {
+  .table-container {
+    width: 80%;
+    margin-bottom: 1vh;
+  }
+}
