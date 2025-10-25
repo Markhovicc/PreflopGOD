@@ -3,6 +3,7 @@
   width: 75%;         /* mesa menor */
   max-width: 380px;
   margin-bottom: 2vh; /* reduz espaço abaixo */
+  position: relative; /* para posicionar elementos filhos */
 }
 
 .poker-table {
@@ -13,9 +14,124 @@
   margin: 0 auto;
 }
 
+/* POSIÇÕES DOS JOGADORES */
+.player-positions {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* permite cliques através das posições */
+}
+
+.position {
+  position: absolute;
+  background: #000;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 40px;
+  text-align: center;
+  border: 1px solid #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Posicionamento das 8 posições em sentido horário na mesa */
+/* BTN → SB → BB → UTG → UTG+1 → LJ → HJ → CO */
+.position:nth-child(1) { top: 7%; left: 50%; transform: translateX(-50%); } /* BTN - CIMA */
+.position:nth-child(2) { top: 13%; right: 10%; } /* SB - Diagonal superior direita */
+.position:nth-child(3) { top: 50%; right: 0%; transform: translateY(-50%); } /* BB - DIREITA */
+.position:nth-child(4) { bottom: 15%; right: 7%; } /* UTG - Diagonal inferior direita */
+.position:nth-child(5) { 
+    bottom: 5%; 
+    left: 41%; 
+    transform: translateX(-50%); 
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} /* Posição BAIXO - sempre centralizada */
+.position:nth-child(6) { bottom: 15%; left: 7%; } /* LJ - Diagonal inferior esquerda */
+.position:nth-child(7) { top: 50%; left: 0%; transform: translateY(-50%); } /* HJ - ESQUERDA */
+.position:nth-child(8) { top: 13%; left: 10%; } /* CO - Diagonal superior esquerda */
+
+/* Estilo especial para a posição do dealer */
+.position.dealer-position {
+    background: rgba(255, 215, 0, 0.9) !important;
+    color: #000 !important;
+    border: 3px solid #fff !important;
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+/* Iluminação dinâmica para a posição abaixo da mesa */
+
+/* BOTÃO DEALER */
+.dealer-button {
+  position: absolute;
+  background: #fff;
+  color: #000;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 14px;
+  border: 2px solid #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+/* CONTROLES DO DEALER */
+.dealer-controls {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.dealer-btn {
+  background: linear-gradient(45deg, #ffd700, #ffed4e);
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dealer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
+}
+
 @media (orientation: portrait) {
   .table-container {
     width: 80%;
     margin-bottom: 1vh;
+  }
+  
+  .position {
+    font-size: 10px;
+    padding: 6px 10px;
+    min-width: 35px;
+  }
+  
+  .dealer-button {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
   }
 }
