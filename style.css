@@ -1,22 +1,22 @@
 body {
   background-color: #000;
   display: flex;
-  justify-content: flex-start; /* começa do topo */
+  flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   min-height: 100vh;
   margin: 0;
-  padding-top: 10px;
-  overflow-x: hidden;
+  padding-top: 0vh; /* mesa mais próxima do topo */
   font-family: Arial, sans-serif;
-  flex-direction: column;
+  overflow-x: hidden;
 }
 
+/* ===== MESA ===== */
 .table-container {
-  position: relative;
   text-align: center;
-  width: 95%;
-  max-width: 480px; /* garante que não fique maior que a tela do celular */
-  margin: 0 auto;
+  width: 75%;         /* mesa menor */
+  max-width: 380px;
+  margin-bottom: 2vh; /* reduz espaço abaixo */
 }
 
 .poker-table {
@@ -27,30 +27,30 @@ body {
   margin: 0 auto;
 }
 
-/* Contêiner dos botões */
+/* ===== BOTÕES FIXOS NO RODAPÉ ===== */
 .buttons-container {
-  position: absolute;
-  bottom: 6%; /* ajusta altura dentro da mesa */
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3vw; /* espaçamento proporcional */
+  
+  bottom: 10%; /* ajuste a altura manualmente (ex: 8%, 12%, etc.) */
+  left: 50%; 
+  transform: translateX(0%);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colunas */
+  grid-gap: 3vw; /* espaço entre botões */
+  justify-items: center;
   background: transparent;
 }
 
-/* Botões com tamanho proporcional à tela */
 .action-btn {
-  padding: 3vw 8vw; /* proporcional à largura da tela */
-  font-size: 3vw;
+  width: 35vw;
+  padding: 2.5vw 0;
+  font-size: 3.5vw;
   font-weight: bold;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   color: white;
   cursor: pointer;
   white-space: nowrap;
-  box-shadow: 0 0 3vw rgba(0,0,0,0.4);
+  box-shadow: 0 0 2vw rgba(0,0,0,0.4);
   transition: transform 0.15s, opacity 0.15s;
 }
 
@@ -59,23 +59,27 @@ body {
   opacity: 0.9;
 }
 
-/* Cores específicas */
+/* Cores */
 .fold  { background-color: #007bff !important; }
 .limp  { background-color: #1b7c2c !important; }
 .raise { background-color: #b41c1c !important; }
 .allin { background-color: #e60000 !important; }
 
-/* ============================= */
-/*        MODO VERTICAL          */
-/* ============================= */
+/* ===== MODO VERTICAL (celular) ===== */
 @media (orientation: portrait) {
+  .table-container {
+    width: 80%;
+    margin-bottom: 1vh;
+  }
+
   .buttons-container {
-    bottom: 5%;
-    gap: 3vw;
+    bottom: 8%; /* pode ajustar pra mais pra cima */
+    grid-gap: 3vw;
   }
 
   .action-btn {
-    padding: 3vw 8vw;
-    font-size: 3vw;
+    font-size: 3.8vw;
+    padding: 2.5vw 0;
+    width: 38vw;
   }
 }
