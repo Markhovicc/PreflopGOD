@@ -2,8 +2,9 @@
   text-align: center;
   width: 75%;         /* mesa menor */
   max-width: 380px;
-  margin-bottom: 2vh; /* reduz espaço abaixo */
+  margin-bottom: 15vh; /* reduz espaço abaixo */
   position: relative; /* para posicionar elementos filhos */
+  margin-top: 4vh;
 }
 
 .poker-table {
