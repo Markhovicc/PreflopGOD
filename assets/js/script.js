@@ -38,8 +38,43 @@ function updatePositions() {
     bottomPosition.classList.add('dealer-position');
     bottomPosition.style.background = 'rgba(255, 215, 0, 0.9)';
     
+    // Mostra as cartas do Hero (jogador iluminado)
+    updateHeroCards();
+    
     // Posiciona o botão dealer sobre a mesa
     updateDealerButtonPosition();
+}
+
+// Função para atualizar as cartas do Hero
+function updateHeroCards() {
+    // Itera sobre todas as cartas
+    for (let i = 0; i < 8; i++) {
+        const cardSet = document.getElementById(`cards-${i}`);
+        
+        if (cardSet) {
+            const cards = cardSet.querySelectorAll('.card');
+            
+            // Se for o Hero (posição 4), mostra as cartas viradas
+            if (i === 4) {
+                // Hero vê suas cartas
+                const heroCard1 = 'A♠';
+                const heroCard2 = 'K♠';
+                
+                cards.forEach((card, index) => {
+                    card.classList.remove('card-back');
+                    card.classList.add('card-face');
+                    card.textContent = index === 0 ? heroCard1 : heroCard2;
+                });
+            } else {
+                // Vilões têm cartas viradas (vermelhas)
+                cards.forEach(card => {
+                    card.classList.remove('card-face');
+                    card.classList.add('card-back');
+                    card.textContent = '';
+                });
+            }
+        }
+    }
 }
 
 // Função para posicionar o botão dealer
