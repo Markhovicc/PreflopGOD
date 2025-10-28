@@ -190,6 +190,47 @@
 }
 
 /* ================================
+   FICHAS (small / big)
+   ================================ */
+.chip {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.6);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  z-index: 18;
+  pointer-events: none;
+}
+
+.chip-small {
+  background: linear-gradient(180deg, #5ec95e, #2f8f2f);
+}
+
+.chip-big {
+  background: linear-gradient(180deg, #7fb3ff, #2f7bd9);
+}
+
+/* chip text */
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.chip-text {
+  color: #fff;
+  font-size: 10px;
+  line-height: 1;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+.chip-small .chip-text { font-size: 10px; }
+.chip-big .chip-text { font-size: 11px; }
+
+/* ================================
    CONTROLE DO DEALER
 ================================ */
 .dealer-controls {

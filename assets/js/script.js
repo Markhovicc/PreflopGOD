@@ -28,9 +28,81 @@ function setDealerOffsetByLabel(label, x, y) {
     dealerOffsetsByLabel[label] = { x: Number(x) || 0, y: Number(y) || 0 };
 }
 
+// Posiciona as fichas (small / big) conforme as labels SB e BB
+function updateChipsPosition() {
+    const smallChip = document.getElementById('small-chip');
+    const bigChip = document.getElementById('big-chip');
+    const positionElements = document.querySelectorAll('.position');
+    const tableRect = document.querySelector('.table-container').getBoundingClientRect();
+
+    // helper para posicionar uma ficha em frente ao elemento que possui a label 'labelName'
+    function positionChip(labelName, chipEl, offsetsMap, defaultPlacement) {
+        for (let pos of positionElements) {
+            const textEl = pos.querySelector('.position-text');
+            if (textEl && textEl.textContent === labelName) {
+                const rect = pos.getBoundingClientRect();
+                // base: centro horizontal da caixa e logo abaixo dela
+                let baseX = rect.left - tableRect.left + rect.width / 2;
+                let baseY = rect.top - tableRect.top + rect.height + 6;
+                // apply offsets if provided
+                const off = (offsetsMap && offsetsMap[labelName]) ? offsetsMap[labelName] : { x: 0, y: 0 };
+                const finalX = baseX + off.x;
+                const finalY = baseY + off.y;
+                chipEl.style.left = `${Math.round(finalX - chipEl.offsetWidth/2)}px`;
+                chipEl.style.top = `${Math.round(finalY - chipEl.offsetHeight/2)}px`;
+                return;
+            }
+        }
+        // se não encontrou a label, esconder a ficha
+        chipEl.style.left = '-9999px';
+        chipEl.style.top = '-9999px';
+    }
+
+    if (smallChip) positionChip('SB', smallChip, smallChipOffsetsByLabel);
+    if (bigChip) positionChip('BB', bigChip, bigChipOffsetsByLabel);
+}
+
 function getDealerOffsetsByLabel() {
     return JSON.parse(JSON.stringify(dealerOffsetsByLabel));
 }
+
+// ================================
+// FICHAS: offsets por posição lógica
+// Edite estes valores na ordem: BTN, SB, BB, UTG, UTG+1, LJ, HJ, CO
+// Cada chave é uma posição lógica; ajuste x/y para deslocar a ficha relativa à posição
+const smallChipOffsetsByLabel = {
+    BTN: { x: 0, y: 0 },
+    SB:  { x: 0, y: 8 },   // padrão: small chip fica um pouco abaixo do label
+    BB:  { x: 0, y: 0 },
+    UTG: { x: 0, y: 0 },
+    'UTG+1': { x: 0, y: 0 },
+    LJ:  { x: 0, y: 0 },
+    HJ:  { x: 0, y: 0 },
+    CO:  { x: 0, y: 0 }
+};
+
+const bigChipOffsetsByLabel = {
+    BTN: { x: 0, y: 0 },
+    SB:  { x: 0, y: 0 },
+    BB:  { x: 0, y: 10 },  // padrão: big chip um pouco abaixo
+    UTG: { x: 0, y: 0 },
+    'UTG+1': { x: 0, y: 0 },
+    LJ:  { x: 0, y: 0 },
+    HJ:  { x: 0, y: 0 },
+    CO:  { x: 0, y: 0 }
+};
+
+function setSmallChipOffsetByLabel(label, x, y) {
+    if (!smallChipOffsetsByLabel.hasOwnProperty(label)) return;
+    smallChipOffsetsByLabel[label] = { x: Number(x) || 0, y: Number(y) || 0 };
+}
+function setBigChipOffsetByLabel(label, x, y) {
+    if (!bigChipOffsetsByLabel.hasOwnProperty(label)) return;
+    bigChipOffsetsByLabel[label] = { x: Number(x) || 0, y: Number(y) || 0 };
+}
+
+function getSmallChipOffsetsByLabel() { return JSON.parse(JSON.stringify(smallChipOffsetsByLabel)); }
+function getBigChipOffsetsByLabel() { return JSON.parse(JSON.stringify(bigChipOffsetsByLabel)); }
 
 // Define as posições iniciais
 function setInitialPositions() {
@@ -64,6 +136,7 @@ function updatePositions() {
 
     updateHeroCards();
     updateDealerButtonPosition();
+    updateChipsPosition();
 }
 
 // Atualiza as cartas do Hero
@@ -165,6 +238,8 @@ function updateDealerButtonPosition() {
         dealerButton.style.top = `${relativeY}px`;
         dealerButton.style.transform = 'none';
     }
+
+    // (chips positioned by updateChipsPosition global function)
 }
 
 // Atualiza as posições relativas ao dealer (sem apagar blinds)
