@@ -1,9 +1,9 @@
 .table-container {
   text-align: center;
-  width: 75%;         /* mesa menor */
+  width: 75%;
   max-width: 380px;
-  margin-bottom: 15vh; /* reduz espaço abaixo */
-  position: relative; /* para posicionar elementos filhos */
+  margin-bottom: 15vh;
+  position: relative;
   margin-top: 4vh;
 }
 
@@ -14,65 +14,93 @@
   display: block;
   margin: 0 auto;
 }
-
-/* POSIÇÕES DOS JOGADORES */
+/* ================================
+   POSIÇÕES DOS JOGADORES
+================================ */
 .player-positions {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* permite cliques através das posições */
+  pointer-events: none;
 }
 
+/* Caixinha com posição e blind lado a lado */
 .position {
   position: absolute;
-  background: #000;
+  background: rgba(0, 0, 0, 0.85);
   color: white;
   padding: 6px 10px;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 12px;
   font-weight: bold;
-  min-width: 40px;
   text-align: center;
   border: 1px solid #333;
+  /* sombra escura padrão (sem brilho por padrão) */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 10;
+  display: inline-flex;          /* lado a lado */
+  align-items: center;           /* alinha verticalmente */
+  justify-content: center;       /* centraliza horizontalmente */
+  gap: 4px;                      /* espaço entre BTN e 10BB */
+  white-space: nowrap;           /* impede quebra de linha */
 }
 
-/* Posicionamento das 8 posições em sentido horário na mesa */
-/* BTN → SB → BB → UTG → UTG+1 → LJ → HJ → CO */
-.position:nth-child(1) { top: 7%; left: 50%; transform: translateX(-50%); } /* BTN - CIMA */
-.position:nth-child(2) { top: 13%; right: 10%; } /* SB - Diagonal superior direita */
-.position:nth-child(3) { top: 50%; right: 0%; transform: translateY(-50%); } /* BB - DIREITA */
-.position:nth-child(4) { bottom: 15%; right: 7%; } /* UTG - Diagonal inferior direita */
-.position:nth-child(5) { 
-    bottom: 5%; 
-    left: 41%; 
-    transform: translateX(-50%); 
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} /* Posição BAIXO - sempre centralizada */
-.position:nth-child(6) { bottom: 15%; left: 7%; } /* LJ - Diagonal inferior esquerda */
-.position:nth-child(7) { top: 50%; left: 0%; transform: translateY(-50%); } /* HJ - ESQUERDA */
-.position:nth-child(8) { top: 13%; left: 10%; } /* CO - Diagonal superior esquerda */
+/* texto da posição (BTN, SB, etc.) */
+.position-text {
+  font-size: 13px;
+  font-weight: bold;
+}
 
-/* Estilo especial para a posição do dealer */
+/* texto dos blinds (10BB) */
+.blinds {
+  color: #ffcc00;
+  font-size: 12px;
+  text-shadow: 0 0 3px #000;
+}
+
+
+
+/* Posicionamento das 8 posições na mesa */
+.position:nth-child(1) { top: 7%; left: 50%; transform: translateX(-50%); } /* BTN */
+.position:nth-child(2) { top: 13%; right: 10%; } /* SB */
+.position:nth-child(3) { top: 50%; right: 0%; transform: translateY(-50%); } /* BB */
+.position:nth-child(4) { bottom: 15%; right: 7%; } /* UTG */
+.position:nth-child(5) { bottom: 5%; left: 41%; transform: translateX(-50%); text-align: center; } /* UTG+1 */
+.position:nth-child(6) { bottom: 15%; left: 7%; } /* LJ */
+.position:nth-child(7) { top: 50%; left: 0%; transform: translateY(-50%); } /* HJ */
+.position:nth-child(8) { top: 13%; left: 10%; } /* CO */
+
+/* Destaque para o dealer */
 .position.dealer-position {
-    background: rgba(255, 215, 0, 0.9) !important;
-    color: #000 !important;
-    border: 3px solid #fff !important;
-    transform: scale(1.1);
-    z-index: 10;
+  background: linear-gradient(180deg, #0e0d0c, #000000);
+  color: #000;
+  
+  border: 2px solid #fff;
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+  z-index: 15;
 }
 
-/* Iluminação dinâmica para a posição abaixo da mesa */
+/* Forçar a posição de baixo (nth-child(5)) a ficar preta mesmo quando for dealer */
+.position:nth-child(5).dealer-position {
+  background: rgba(0,0,0,0.85) !important;
+  color: #fff !important;
+  border: 1px solid #333 !important;
+  transform: none !important;
+  /* manter fundo preto, porém permitir brilho branco sutil ao redor */
+  box-shadow: 0 2px 4px rgba(232, 255, 22, 0.973), 0 0 8px rgba(255,255,255,0.12) !important;
+}
 
-/* CARTAS DOS JOGADORES */
+/* Brilho branco sutil apenas para o jogador abaixo da mesa (posição 5) */
+.position:nth-child(5) {
+  box-shadow: 0 2px 4px rgba(253, 253, 56, 0.3), 0 0 8px rgba(255, 255, 255, 0.12);
+}
+
+/* ================================
+   CARTAS DOS JOGADORES
+================================ */
 .player-cards {
   position: absolute;
   top: 0;
@@ -89,7 +117,7 @@
 }
 
 .player-card-set .card:not(:first-child) {
-  margin-left: -10px; /* cartas ficam parcialmente sobrepostas */
+  margin-left: -10px;
 }
 
 .card {
@@ -106,7 +134,7 @@
   z-index: 5;
 }
 
-/* Carta virada para baixo - VERMELHO */
+/* Carta virada para baixo */
 .card-back {
   background-color: #8B0000 !important;
   background-image: repeating-linear-gradient(
@@ -118,29 +146,28 @@
   );
 }
 
-/* Carta com face visível (para o Hero) */
+/* Carta com face visível (Hero) */
 .card-face {
   background: #fff;
   color: #000;
-  background-image: 
+  background-image:
     linear-gradient(45deg, #e8e8e8 25%, transparent 25%),
     linear-gradient(-54deg, #e8e8e8 25%, transparent 25%);
 }
 
-/* Posicionamento das cartas sobre as caixas das posições */
-#cards-0 { top: -1%; left: 43%; } /* Sobre BTN */
-#cards-1 { top: 5%; right: 12%; } /* Sobre SB */
-#cards-2 { top: 44%; right: 1%; transform: translateY(-50%); } /* Sobre BB */
-#cards-3 { bottom: 20%; right: 7%; } /* Sobre UTG */
-#cards-4 { 
-    bottom: 12%; 
-    left: 43%;
-} /* Sobre UTG+1 (Hero) */
-#cards-5 { bottom: 20%; left: 8%; } /* Sobre LJ */
-#cards-6 { top: 44%; left: 1%; transform: translateY(-50%); } /* Sobre HJ */
-#cards-7 { top: 5%; left: 11%; } /* Sobre CO */
+/* Posições das cartas sobre a mesa */
+#cards-0 { top: -1%; left: 43%; } /* BTN */
+#cards-1 { top: 5%; right: 12%; } /* SB */
+#cards-2 { top: 44%; right: 1%; transform: translateY(-50%); } /* BB */
+#cards-3 { bottom: 20%; right: 7%; } /* UTG */
+#cards-4 { bottom: 12%; left: 43%; } /* UTG+1 (Hero) */
+#cards-5 { bottom: 20%; left: 8%; } /* LJ */
+#cards-6 { top: 44%; left: 1%; transform: translateY(-50%); } /* HJ */
+#cards-7 { top: 5%; left: 11%; } /* CO */
 
-/* BOTÃO DEALER */
+/* ================================
+   BOTÃO DEALER
+================================ */
 .dealer-button {
   position: absolute;
   background: #fff;
@@ -162,7 +189,9 @@
   z-index: 20;
 }
 
-/* CONTROLES DO DEALER */
+/* ================================
+   CONTROLE DO DEALER
+================================ */
 .dealer-controls {
   text-align: center;
   margin: 20px 0;
@@ -186,18 +215,25 @@
   box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
 }
 
+/* ================================
+   MODO VERTICAL (CELULAR)
+================================ */
 @media (orientation: portrait) {
   .table-container {
     width: 80%;
     margin-bottom: 1vh;
   }
-  
+
   .position {
     font-size: 10px;
-    padding: 6px 10px;
+    padding: 6px 8px;
     min-width: 35px;
   }
-  
+
+  .blinds {
+    font-size: 10px;
+  }
+
   .dealer-button {
     width: 25px;
     height: 25px;

@@ -6,67 +6,81 @@ document.getElementById("allin").onclick = () => alert("Você foi ALL-IN 🔥");
 
 // Sistema de posições e dealer
 let currentDealerPosition = 0; // BTN é a posição 0
-// Ordem fixa das posições: BTN, SB, BB, UTG, UTG+1, LJ, HJ, CO
 const positions = ['BTN', 'SB', 'BB', 'UTG', 'UTG+1', 'LJ', 'HJ', 'CO'];
 
-// Função para definir as posições iniciais
+// Configuração de offsets por posição lógica (edite nesta ordem: BTN, SB, BB, UTG, UTG+1, LJ, HJ, CO)
+// Cada entrada controla um deslocamento adicional em pixels aplicado ao botão do dealer
+// Valores positivos: x -> direita, y -> baixo. Valores negativos: esquerda/cima.
+const dealerOffsetsByLabel = {
+    BTN: { x: -30, y: 0 },
+    SB:  { x: 50, y: 50 },
+    BB:  { x: 0, y: 0 },
+    UTG: { x: 0, y: 0 },
+    'UTG+1': { x: -30, y: -35 },
+    LJ:  { x: 10, y: -28 },
+    HJ:  { x: 0, y: 0 },
+    CO:  { x: 0, y: 0 }
+};
+
+// Helpers para ajustar offsets em runtime (console)
+function setDealerOffsetByLabel(label, x, y) {
+    if (!dealerOffsetsByLabel.hasOwnProperty(label)) return;
+    dealerOffsetsByLabel[label] = { x: Number(x) || 0, y: Number(y) || 0 };
+}
+
+function getDealerOffsetsByLabel() {
+    return JSON.parse(JSON.stringify(dealerOffsetsByLabel));
+}
+
+// Define as posições iniciais
 function setInitialPositions() {
     const positionElements = document.querySelectorAll('.position');
-    
+
     positionElements.forEach((pos, index) => {
-        pos.textContent = positions[index];
+        const textEl = pos.querySelector('.position-text');
+        if (textEl) {
+            textEl.textContent = positions[index];
+        } else {
+            pos.innerHTML = `<span class="position-text">${positions[index]}</span>`;
+        }
         pos.setAttribute('data-position', positions[index]);
     });
 }
 
-// Função para atualizar as posições baseadas no dealer
+// Atualiza as posições baseadas no dealer
 function updatePositions() {
-    const dealerButton = document.getElementById('dealer-button');
     const positionElements = document.querySelectorAll('.position');
     
-    // Remove destaque de todas as posições
     positionElements.forEach(pos => {
         pos.classList.remove('dealer-position');
         pos.style.background = '#000';
     });
-    
-    // Atualiza as posições relativas ao dealer (rotação)
+
     updateRelativePositions();
-    
-    // Ilumina a posição que está embaixo da mesa (posição 4 - índice 4)
+
     const bottomPosition = positionElements[4];
     bottomPosition.classList.add('dealer-position');
     bottomPosition.style.background = 'rgba(255, 215, 0, 0.9)';
-    
-    // Mostra as cartas do Hero (jogador iluminado)
+
     updateHeroCards();
-    
-    // Posiciona o botão dealer sobre a mesa
     updateDealerButtonPosition();
 }
 
-// Função para atualizar as cartas do Hero
+// Atualiza as cartas do Hero
 function updateHeroCards() {
-    // Itera sobre todas as cartas
     for (let i = 0; i < 8; i++) {
         const cardSet = document.getElementById(`cards-${i}`);
-        
         if (cardSet) {
             const cards = cardSet.querySelectorAll('.card');
-            
-            // Se for o Hero (posição 4), mostra as cartas viradas
             if (i === 4) {
-                // Hero vê suas cartas
                 const heroCard1 = 'A♠';
                 const heroCard2 = 'K♠';
-                
                 cards.forEach((card, index) => {
                     card.classList.remove('card-back');
                     card.classList.add('card-face');
                     card.textContent = index === 0 ? heroCard1 : heroCard2;
                 });
             } else {
-                // Vilões têm cartas viradas (vermelhas)
                 cards.forEach(card => {
                     card.classList.remove('card-face');
                     card.classList.add('card-back');
@@ -77,100 +91,104 @@ function updateHeroCards() {
     }
 }
 
-// Função para posicionar o botão dealer
+// Posiciona o botão dealer
 function updateDealerButtonPosition() {
     const dealerButton = document.getElementById('dealer-button');
-    
-    // Encontra qual posição é o BTN atual
     const positionElements = document.querySelectorAll('.position');
     let btnPosition = null;
     let btnIndex = -1;
-    
-    // Procura pela posição que tem o texto "BTN"
+
     positionElements.forEach((pos, index) => {
-        if (pos.textContent === 'BTN') {
+        const textEl = pos.querySelector('.position-text');
+        if (textEl && textEl.textContent === 'BTN') {
             btnPosition = pos;
             btnIndex = index;
         }
     });
-    
+
     if (btnPosition) {
         const rect = btnPosition.getBoundingClientRect();
         const tableRect = document.querySelector('.table-container').getBoundingClientRect();
-        
-        // Posiciona o botão D baseado na localização do BTN
         let relativeX, relativeY;
-        
-        switch(btnIndex) {
-            case 0: // BTN no topo (cima)
-                relativeX = rect.left - tableRect.left + (rect.width / 2) - 12.5;
-                relativeY = rect.top - tableRect.top + rect.height + 10; // Abaixo do BTN
+
+        // determine base relative position based on which DOM index currently has the 'BTN' label
+        switch (btnIndex) {
+            case 0:
+                relativeX = 200;
+                relativeY = 67;
                 break;
-            case 1: // BTN diagonal superior direita
-                relativeX = rect.left - tableRect.left - 20; // À esquerda do BTN
-                relativeY = rect.top - tableRect.top + (rect.height / 2) - 12.5;
+            case 1:
+                relativeX = 240;
+                relativeY = 105;
                 break;
-            case 2: // BTN na direita
-                relativeX = rect.left - tableRect.left - 20; // À esquerda do BTN
-                relativeY = rect.top - tableRect.top + (rect.height / 2) - 12.5;
+            case 2:
+                relativeX = 250;
+                relativeY = 257;
                 break;
-            case 3: // BTN diagonal inferior direita
-                relativeX = rect.left - tableRect.left - 20; // À esquerda do BTN
-                relativeY = rect.top - tableRect.top - 20; // Acima do BTN
+            case 3:
+                relativeX = 230;
+                relativeY = 357;
                 break;
-            case 4: // BTN embaixo (iluminado)
-                relativeX = rect.left - tableRect.left - 30; // Mais à esquerda do BTN
-                relativeY = rect.top - tableRect.top - 35; // Mais acima do BTN
+            case 4:
+                relativeX = 130;
+                relativeY = 360;
+                break;        
+            case 5:
+                 // posição abaixo esquerda: subir um pouco mais o botão
+                relativeX = 90;
+                relativeY = 290;
                 break;
-            case 5: // BTN diagonal inferior esquerda
-                relativeX = rect.left - tableRect.left + rect.width + 10; // À direita do BTN
-                relativeY = rect.top - tableRect.top - 20; // Acima do BTN
+            case 6:
+                relativeX = 92;
+                relativeY = 160;
                 break;
-            case 6: // BTN na esquerda
-                relativeX = rect.left - tableRect.left + rect.width + 10; // À direita do BTN
-                relativeY = rect.top - tableRect.top + (rect.height / 2) - 12.5;
-                break;
-            case 7: // BTN diagonal superior esquerda
-                relativeX = rect.left - tableRect.left + rect.width + 10; // À direita do BTN
-                relativeY = rect.top - tableRect.top + (rect.height / 2) - 12.5;
+            case 7:
+                relativeX = 136;
+                relativeY = 67;
                 break;
             default:
-                relativeX = rect.left - tableRect.left + (rect.width / 2) - 12.5;
-                relativeY = rect.top - tableRect.top - 15;
+                relativeX = 200;
+                relativeY = 67;
+                break;
         }
-        
+
+        // apply offset based on logical label present in this seat (BTN, SB, BB, ...)
+        const labelEl = btnPosition.querySelector('.position-text');
+        const label = labelEl ? labelEl.textContent : null;
+        if (label && dealerOffsetsByLabel[label]) {
+            const off = dealerOffsetsByLabel[label];
+            relativeX += off.x;
+            relativeY += off.y;
+        }
+
         dealerButton.style.left = `${relativeX}px`;
         dealerButton.style.top = `${relativeY}px`;
         dealerButton.style.transform = 'none';
     }
 }
 
-// Função para atualizar as posições relativas ao dealer
+// Atualiza as posições relativas ao dealer (sem apagar blinds)
 function updateRelativePositions() {
     const positionElements = document.querySelectorAll('.position');
-    
+
     positionElements.forEach((pos, index) => {
         const relativeIndex = (index - currentDealerPosition + 8) % 8;
         const positionName = positions[relativeIndex];
-        pos.textContent = positionName;
+        const textEl = pos.querySelector('.position-text');
+        if (textEl) textEl.textContent = positionName;
         pos.setAttribute('data-position', positionName);
     });
 }
 
-// Função para rotacionar o dealer
+// Rotaciona o dealer
 function rotateDealer() {
     currentDealerPosition = (currentDealerPosition + 1) % 8;
     updatePositions();
-    
-    // Mostra qual posição é o dealer agora
-    const dealerPosition = positions[currentDealerPosition];
-    console.log(`Dealer agora está na posição: ${dealerPosition}`);
+    console.log(`Dealer agora está na posição: ${positions[currentDealerPosition]}`);
 }
 
-// Event listener para o botão de rotação
 document.getElementById("rotate-dealer").onclick = rotateDealer;
 
-// Inicializa as posições
 document.addEventListener('DOMContentLoaded', function() {
     setInitialPositions();
     updatePositions();

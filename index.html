@@ -4,28 +4,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PreFlopGOD</title>
+
+  <!-- Estilos -->
   <link rel="stylesheet" href="assets/css/bootstrap.css">
   <link rel="stylesheet" href="assets/css/table.css">
   <link rel="stylesheet" href="assets/css/buttons.css">
 </head>
+
 <body>
-  <!-- MESA -->
+  <!-- ===== MESA DE POKER ===== -->
   <div class="table-container">
     <img src="assets/img/mesaLimpa.png" alt="Mesa de Poker" class="poker-table">
     
-    <!-- POSIÇÕES DOS JOGADORES -->
+    <!-- ===== POSIÇÕES DOS JOGADORES ===== -->
     <div class="player-positions">
-      <div class="position" id="pos-0" data-position="BTN">BTN</div>
-      <div class="position" id="pos-1" data-position="SB">SB</div>
-      <div class="position" id="pos-2" data-position="BB">BB</div>
-      <div class="position" id="pos-3" data-position="UTG">UTG</div>
-      <div class="position" id="pos-4" data-position="UTG+1">UTG+1</div>
-      <div class="position" id="pos-5" data-position="LJ">LJ</div>
-      <div class="position" id="pos-6" data-position="HJ">HJ</div>
-      <div class="position" id="pos-7" data-position="CO">CO</div>
+      <div class="position" id="pos-0" data-position="BTN">
+        <span class="position-text">BTN</span>
+        <span class="blinds">10BB</span>
+      </div>
+      <div class="position" id="pos-1" data-position="SB">
+        <span class="position-text">SB</span>
+        <span class="blinds">10BB</span>
+      </div>
+      <div class="position" id="pos-2" data-position="BB">
+        <span class="position-text">BB</span>
+        <span class="blinds">10BB</span>
+      </div>
+      <div class="position" id="pos-3" data-position="UTG">
+        <span class="position-text">UTG</span>
+        <span class="blinds">10BB</span>
+      </div>
+      <div class="position" id="pos-4" data-position="UTG+1">
+        <span class="position-text">UTG+1</span>
+        <span class="blinds">10BB</span>
+      </div>
+      <div class="position" id="pos-5" data-position="LJ">
+        <span class="position-text">LJ</span>
+        <span class="blinds">10BB</span>
+      </div>
+      <div class="position" id="pos-6" data-position="HJ">
+        <span class="position-text">HJ</span>
+        <span class="blinds">10BB</span>
+      </div>
+      <div class="position" id="pos-7" data-position="CO">
+        <span class="position-text">CO</span>
+        <span class="blinds">10BB</span>
+      </div>
     </div>
     
-    <!-- CARTAS DOS JOGADORES -->
+    <!-- ===== CARTAS DOS JOGADORES ===== -->
     <div class="player-cards">
       <div class="player-card-set" id="cards-0">
         <div class="card card-back"></div>
@@ -61,11 +88,11 @@
       </div>
     </div>
     
-    <!-- BOTÃO DEALER -->
+    <!-- ===== BOTÃO DO DEALER ===== -->
     <div class="dealer-button" id="dealer-button">D</div>
   </div>
 
-  <!-- BOTÕES DE AÇÃO -->
+  <!-- ===== BOTÕES DE AÇÃO ===== -->
   <div class="buttons-container">
     <button id="fold" class="action-btn fold">FOLD</button>
     <button id="raise" class="action-btn raise">RAISE 2</button>
@@ -73,11 +100,12 @@
     <button id="allin" class="action-btn allin">ALL-IN</button>
   </div>
 
-  <!-- BOTÃO ROTACIONAR DEALER -->
+  <!-- ===== CONTROLE DO DEALER ===== -->
   <div class="dealer-controls">
     <button id="rotate-dealer" class="dealer-btn">ROTACIONAR DEALER</button>
   </div>
 
+  <!-- ===== SCRIPT PRINCIPAL ===== -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
